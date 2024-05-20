@@ -225,28 +225,25 @@ func (r *Replica) proposeBlock(view types.View) {
 // calvin
 func (r *Replica) ProposeTXN() {
 	//the Sequencing Layer
-	ticker := time.NewTicker(10 * time.Millisecond)
-	for {
-		select {
-		case <-ticker.C:
-			//1)each sequencer collects txn from client's request
-			txns := r.pd.GeneratePayload()
-			if len(txns) > 0 {
-				r.EpochNum++
-				txnIDs := make([]string, len(txns))
-				for i, txn := range txns {
-					txnIDs[i] = txn.ID
-				}
-				msg := message.Sequencer_Message{
-					SeqID:     r.ID().Node(),
-					EpochNum:  int(r.pm.GetCurView()),
-					TxnIDs:    txnIDs,
-					Timestamp: time.Now(),
-				}
-				r.Sequencer_Message <- msg
+	//tmr := time.NewTimer(10 * time.Millisecond)
+	//<-tmr.C
 
-			}
+	// tker := time.NewTicker(10 * time.Millisecond)
+	// <-tker.C
+
+	txns := r.pd.GeneratePayload()
+	if len(txns) > 0 {
+		txnIDs := make([]string, len(txns))
+		for i, txn := range txns {
+			txnIDs[i] = txn.ID
 		}
+		msg := message.Sequencer_Message{
+			SeqID:    r.ID().Node(),
+			EpochNum: int(r.pm.GetCurView()),
+			TxnIDs:   txnIDs,
+		}
+		r.Sequencer_Message <- msg
+
 	}
 
 }

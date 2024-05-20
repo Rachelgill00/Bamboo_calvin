@@ -28,14 +28,14 @@ func init() {
  * Client-Replica Messages *
  ***************************/
 
-// Transaction is client reqeust with http response channel 事务是客户通过 http 响应通道提出的请求
+// Transaction is client reqeust with http response channel
 type Transaction struct {
-	Command    db.Command //表示交易关联的数据库命令。通常是一个预定义的枚举类型或其他自定义类型，用于指定具体的数据库操作（如插入、更新、删除等）。
+	Command    db.Command
 	Properties map[string]string
 	Timestamp  time.Time
 	NodeID     identity.NodeID // forward by node
 	ID         string
-	C          chan TransactionReply // reply channel created by request receiver 请求接受者创建的 回复通道
+	C          chan TransactionReply // reply channel created by request receiver
 }
 
 // TransactionReply replies to current client session
@@ -115,8 +115,7 @@ type Register struct {
 //}
 
 type Sequencer_Message struct {
-	NodeID    identity.NodeID
-	CurView   types.View
-	Txn       []*Transaction
-	Timestamp time.Time
+	NodeID  identity.NodeID
+	CurView types.View
+	Txn     []*Transaction
 }
