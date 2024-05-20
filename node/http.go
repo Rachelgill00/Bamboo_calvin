@@ -26,6 +26,7 @@ var ppFree = sync.Pool{
 }
 
 // serve serves the http REST API request from clients
+//receiver
 func (n *node) http() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", n.handleRoot)

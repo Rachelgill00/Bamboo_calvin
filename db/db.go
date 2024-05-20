@@ -15,7 +15,7 @@ type Key int
 
 type Value []byte
 
-// Command of key-value database
+// Command of key-value database 键值数据库命令
 type Command struct {
 	Key       Key
 	Value     Value
@@ -49,7 +49,7 @@ func (c Command) String() string {
 	return fmt.Sprintf("Put{key=%v value=%x id=%s cid=%d", c.Key, c.Value, c.ClientID, c.CommandID)
 }
 
-// Database defines a database interface
+// Database defines a database interface 定义了个数据库接口
 // TODO replace with more general StateMachine interface
 type Database interface {
 	Execute(Command) Value

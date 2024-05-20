@@ -21,7 +21,7 @@ type Node interface {
 	Run()
 	Retry(r message.Transaction)
 	Forward(id identity.NodeID, r message.Transaction)
-	Register(m interface{}, f interface{})
+	Register(m interface{}, f interface{}) //接收两个interface{}类型的参数，通常代表某种消息类型（m）和对应的消息处理函数（f）。
 	IsByz() bool
 }
 
@@ -112,7 +112,7 @@ func (n *node) txn() {
 	}
 }
 
-//recv receives messages from socket and pass to message channel
+// recv receives messages from socket and pass to message channel
 func (n *node) recv() {
 	for {
 		m := n.Recv()

@@ -3,9 +3,10 @@ package replica
 import (
 	"encoding/gob"
 	"fmt"
+	"time"
+
 	fhs "github.com/gitferry/bamboo/fasthostuff"
 	"github.com/gitferry/bamboo/lbft"
-	"time"
 
 	"go.uber.org/atomic"
 
@@ -28,6 +29,8 @@ type Replica struct {
 	node.Node
 	Safety
 	election.Election
+	//message.Sequencer
+	//message.Sequencer_Message
 	pd              *mempool.Producer
 	pm              *pacemaker.Pacemaker
 	start           chan bool // signal to start the node
@@ -39,6 +42,7 @@ type Replica struct {
 	eventChan       chan interface{}
 
 	/* for monitoring node statistics */
+
 	thrus                string
 	lastViewTime         time.Time
 	startTime            time.Time
@@ -61,7 +65,7 @@ type Replica struct {
 	committedNo          int
 }
 
-// NewReplica creates a new replica instance
+// NewReplica creates a new replica instance （创建一个新的副本实例）
 func NewReplica(id identity.NodeID, alg string, isByz bool) *Replica {
 	r := new(Replica)
 	r.Node = node.NewNode(id, isByz)
@@ -85,12 +89,14 @@ func NewReplica(id identity.NodeID, alg string, isByz bool) *Replica {
 	r.Register(pacemaker.TMO{}, r.HandleTmo)
 	r.Register(message.Transaction{}, r.handleTxn)
 	r.Register(message.Query{}, r.handleQuery)
+	//使用gob创建各种消息类型，以便进行网络通信时的encode/decode
 	gob.Register(blockchain.Block{})
 	gob.Register(blockchain.Vote{})
 	gob.Register(pacemaker.TC{})
 	gob.Register(pacemaker.TMO{})
 
 	// Is there a better way to reduce the number of parameters?
+	// 根据算法名称，选择相应的安全算法进行初始化。
 	switch alg {
 	case "hotstuff":
 		r.Safety = hotstuff.NewHotStuff(r.Node, r.pm, r.Election, r.committedBlocks, r.forkedBlocks)
@@ -105,10 +111,12 @@ func NewReplica(id identity.NodeID, alg string, isByz bool) *Replica {
 	default:
 		r.Safety = hotstuff.NewHotStuff(r.Node, r.pm, r.Election, r.committedBlocks, r.forkedBlocks)
 	}
+	// 返回创建的副本实例
 	return r
 }
 
 /* Message Handlers */
+//消息处理程序
 
 func (r *Replica) HandleBlock(block blockchain.Block) {
 	r.receivedNo++
@@ -135,6 +143,7 @@ func (r *Replica) HandleTmo(tmo pacemaker.TMO) {
 }
 
 // handleQuery replies a query with the statistics of the node
+// 通过节点的统计信息回复查询
 func (r *Replica) handleQuery(m message.Query) {
 	//realAveProposeTime := float64(r.totalProposeDuration.Milliseconds()) / float64(r.processedNo)
 	//aveProcessTime := float64(r.totalProcessDuration.Milliseconds()) / float64(r.processedNo)
@@ -165,7 +174,7 @@ func (r *Replica) handleTxn(m message.Transaction) {
 }
 
 /* Processors */
-
+//处理器
 func (r *Replica) processCommittedBlock(block *blockchain.Block) {
 	if block.Proposer == r.ID() {
 		for _, txn := range block.Payload {
@@ -200,6 +209,7 @@ func (r *Replica) processNewView(newView types.View) {
 
 func (r *Replica) proposeBlock(view types.View) {
 	createStart := time.Now()
+	//
 	block := r.Safety.MakeProposal(view, r.pd.GeneratePayload())
 	r.totalBlockSize += len(block.Payload)
 	r.proposedNo++
@@ -210,6 +220,35 @@ func (r *Replica) proposeBlock(view types.View) {
 	r.Broadcast(block)
 	_ = r.Safety.ProcessBlock(block)
 	r.voteStart = time.Now()
+}
+
+// calvin
+func (r *Replica) ProposeTXN() {
+	//the Sequencing Layer
+	ticker := time.NewTicker(10 * time.Millisecond)
+	for {
+		select {
+		case <-ticker.C:
+			//1)each sequencer collects txn from client's request
+			txns := r.pd.GeneratePayload()
+			if len(txns) > 0 {
+				r.EpochNum++
+				txnIDs := make([]string, len(txns))
+				for i, txn := range txns {
+					txnIDs[i] = txn.ID
+				}
+				msg := message.Sequencer_Message{
+					SeqID:     r.ID().Node(),
+					EpochNum:  int(r.pm.GetCurView()),
+					TxnIDs:    txnIDs,
+					Timestamp: time.Now(),
+				}
+				r.Sequencer_Message <- msg
+
+			}
+		}
+	}
+
 }
 
 // ListenLocalEvent listens new view and timeout events
@@ -264,7 +303,7 @@ func (r *Replica) startSignal() {
 	}
 }
 
-// Start starts event loop
+// Start starts event loop 启动事件循环
 func (r *Replica) Start() {
 	go r.Run()
 	// wait for the start signal

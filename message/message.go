@@ -8,8 +8,11 @@ import (
 	"github.com/gitferry/bamboo/config"
 	"github.com/gitferry/bamboo/db"
 	"github.com/gitferry/bamboo/identity"
+	"github.com/gitferry/bamboo/types"
 )
 
+// 这些类型信息会被编译器编译为一组标识符，用于在网络传输中标识数据类型，或在将数据进行序列化和反序列化时使用。
+// 通过注册这些类型信息，可以在程序中方便地进行数据的序列化和反序列化操作，以及在网络中进行跨进程的数据传输。
 func init() {
 	gob.Register(Transaction{})
 	gob.Register(TransactionReply{})
@@ -25,14 +28,14 @@ func init() {
  * Client-Replica Messages *
  ***************************/
 
-// Transaction is client reqeust with http response channel
+// Transaction is client reqeust with http response channel 事务是客户通过 http 响应通道提出的请求
 type Transaction struct {
-	Command    db.Command
+	Command    db.Command //表示交易关联的数据库命令。通常是一个预定义的枚举类型或其他自定义类型，用于指定具体的数据库操作（如插入、更新、删除等）。
 	Properties map[string]string
 	Timestamp  time.Time
 	NodeID     identity.NodeID // forward by node
 	ID         string
-	C          chan TransactionReply // reply channel created by request receiver
+	C          chan TransactionReply // reply channel created by request receiver 请求接受者创建的 回复通道
 }
 
 // TransactionReply replies to current client session
@@ -102,4 +105,18 @@ type Register struct {
 	Client bool
 	ID     identity.NodeID
 	Addr   string
+}
+
+/**************************
+ *     Calvin Related     *
+ **************************/
+
+//type Sequencer struct {
+//}
+
+type Sequencer_Message struct {
+	NodeID    identity.NodeID
+	CurView   types.View
+	Txn       []*Transaction
+	Timestamp time.Time
 }

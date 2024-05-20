@@ -28,8 +28,8 @@ func (d *Database) Write(k int, v []byte) error {
 func main() {
 	bamboo.Init()
 
-	d := new(Database)
-	d.Client = bamboo.NewHTTPClient()
-	b := benchmark.NewBenchmark(d)
-	b.Run()
+	d := new(Database)							//创建一个database实例d
+	d.Client = bamboo.NewHTTPClient()			//创建一个httpclient实例
+	b := benchmark.NewBenchmark(d)				//使用d创建一个新的benchmark实例b
+	b.Run()										//运行基准测试
 }
