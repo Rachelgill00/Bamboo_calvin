@@ -207,6 +207,7 @@ func (r *Replica) processNewView(newView types.View) {
 	r.proposeBlock(newView)
 }
 
+// creat and broadcast a new blcok
 func (r *Replica) proposeBlock(view types.View) {
 	createStart := time.Now()
 	//
@@ -233,14 +234,10 @@ func (r *Replica) ProposeTXN() {
 
 	txns := r.pd.GeneratePayload()
 	if len(txns) > 0 {
-		txnIDs := make([]string, len(txns))
-		for i, txn := range txns {
-			txnIDs[i] = txn.ID
-		}
 		msg := message.Sequencer_Message{
 			SeqID:    r.ID().Node(),
 			EpochNum: int(r.pm.GetCurView()),
-			TxnIDs:   txnIDs,
+			TxnIDs:   message.Transaction.ID,
 		}
 		r.Sequencer_Message <- msg
 
