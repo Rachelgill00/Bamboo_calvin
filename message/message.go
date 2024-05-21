@@ -117,5 +117,6 @@ type Register struct {
 type Sequencer_Message struct {
 	NodeID  identity.NodeID
 	CurView types.View
-	Txn     []*Transaction
+	TXN     *Transaction
+	//Txn     []*Transaction
 }

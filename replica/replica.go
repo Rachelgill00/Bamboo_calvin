@@ -37,6 +37,7 @@ type Replica struct {
 	isStarted       atomic.Bool
 	isByz           bool
 	timer           *time.Timer // timeout for each view
+	global_sequence chan message.Sequencer_Message
 	committedBlocks chan *blockchain.Block
 	forkedBlocks    chan *blockchain.Block
 	eventChan       chan interface{}
@@ -226,20 +227,24 @@ func (r *Replica) proposeBlock(view types.View) {
 // calvin
 func (r *Replica) ProposeTXN() {
 	//the Sequencing Layer
+
 	//tmr := time.NewTimer(10 * time.Millisecond)
 	//<-tmr.C
 
 	// tker := time.NewTicker(10 * time.Millisecond)
 	// <-tker.C
 
-	txns := r.pd.GeneratePayload()
-	if len(txns) > 0 {
+	//1.each sequencer collects txn from client's request
+	txns_batch := r.pd.GeneratePayload()
+	if len(txns_batch) > 0 {
 		msg := message.Sequencer_Message{
-			SeqID:    r.ID().Node(),
-			EpochNum: int(r.pm.GetCurView()),
-			TxnIDs:   message.Transaction.ID,
+			NodeID:  r.ID(),
+			CurView: types.View(r.pm.GetCurView()),
+			TXN:     txns_batch[0],
 		}
-		r.Sequencer_Message <- msg
+
+		//3.received TXN batch with each other and combine and sort them according to the time
+		r.global_sequence <- msg
 
 	}
 
