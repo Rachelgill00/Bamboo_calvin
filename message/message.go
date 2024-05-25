@@ -36,6 +36,8 @@ type Transaction struct {
 	NodeID     identity.NodeID // forward by node
 	ID         string
 	C          chan TransactionReply // reply channel created by request receiver
+	ReadSet    []string
+	WriteSet   []string
 }
 
 // TransactionReply replies to current client session

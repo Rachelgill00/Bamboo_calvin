@@ -229,7 +229,7 @@ func (r *Replica) ProposeTXN() {
 
 	//1.each sequencer collects txn from client's request 2.10ms
 	txns_batch := r.pd.GeneratePayload()
-	
+
 	if len(txns_batch) > 0 {
 		msg := message.Sequencer_Message{
 			NodeID:  r.ID(),
