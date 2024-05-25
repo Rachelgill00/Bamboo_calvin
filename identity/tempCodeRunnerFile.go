@@ -1,16 +1,11 @@
 package identity
 
-import (
-	"strconv"
-
-	"github.com/gitferry/bamboo/log"
-)
-
 // NodeID represents a generic identifier in format of Zone.Node
-type NodeID string
+//type NodeID string
 
 // NewNodeID returns a new NodeID type given two int number of zone and node
 // 函数主要功能是根据传入的node参数创建一个新的NodeID
+/*
 func NewNodeID(node int) NodeID {
 	if node < 0 {
 		node = -node
@@ -18,6 +13,7 @@ func NewNodeID(node int) NodeID {
 	// return NodeID(fmt.Sprintf("%d.%d", zone, node))
 	return NodeID(strconv.Itoa(node))
 }
+*/
 
 // Zone returns Zond NodeID component
 //func (i NodeID) Zone() int {
@@ -35,6 +31,7 @@ func NewNodeID(node int) NodeID {
 //}
 
 // Node returns Node NodeID component
+/*
 func (i NodeID) Node() int {
 	var s string
 	s = string(i)
@@ -48,8 +45,10 @@ func (i NodeID) Node() int {
 
 type IDs []NodeID
 
+
 func (a IDs) Len() int      { return len(a) }
 func (a IDs) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+*/
 
 //func (a IDs) Less(i, j int) bool {
 //	if a[i].Zone() < a[j].Zone() {

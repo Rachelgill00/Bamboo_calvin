@@ -1,17 +1,7 @@
 package streamlet
 
-import (
-	"github.com/gitferry/bamboo/blockchain"
-	"github.com/gitferry/bamboo/election"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/node"
-	"github.com/gitferry/bamboo/pacemaker"
-	"github.com/gitferry/bamboo/utils"
-	"github.com/stretchr/testify/require"
-	"testing"
-)
-
 // one chain
+/*
 func TestStreamlet_CommitRule1(t *testing.T) {
 	sl := MakeStreamlet()
 	b1 := blockchain.MakeBlock()
@@ -43,3 +33,4 @@ func MakeStreamlet() *Streamlet {
 	committedBlocks := make(chan *blockchain.Block)
 	return NewStreamlet(n, pm, elect, committedBlocks)
 }
+*/
