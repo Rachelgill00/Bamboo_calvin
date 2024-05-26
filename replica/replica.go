@@ -239,7 +239,6 @@ func (r *Replica) ProposeTXN() {
 		//3.received TXN batch with each other and combine and sort them according to the time
 		r.global_sequence <- msg
 	}
-
 }
 
 // ListenLocalEvent listens new view and timeout events
