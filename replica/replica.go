@@ -361,6 +361,7 @@ func (r *Replica) Start() {
 			for _, value := range v {
 				fmt.Println("ReadSet:", value.TXN.ReadSet)
 				fmt.Println("WriteSet:", value.TXN.WriteSet)
+				fmt.Println()
 			}
 		}
 	}
