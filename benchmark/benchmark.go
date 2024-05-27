@@ -13,6 +13,7 @@ var count uint64
 
 // DB is general interface implemented by client to call client library
 // DB 是客户端实现的通用接口，用于调用客户端库
+// 定义事务参与者接口
 type DB interface {
 	Init() error
 	Write(key int, value []byte) error
@@ -23,10 +24,10 @@ type DB interface {
 // 返回默认基准配置
 func DefaultBConfig() config.Bconfig {
 	return config.Bconfig{
-		T:           60,
-		N:           0,
-		Throttle:    0,
-		Concurrency: 1,
+		T:           60, // total number of running time in seconds
+		N:           0,  //total number of requests
+		Throttle:    0,  // requests per second throttle, unused if 0
+		Concurrency: 1,  // number of simulated clients
 	}
 }
 
@@ -57,22 +58,29 @@ func NewBenchmark(db DB) *Benchmark {
 	return b
 }
 
+// 执行事务
 // Run starts the main logic of benchmarking
 func (b *Benchmark) Run() {
+
 	var genCount, sendCount, confirmCount uint64
 
 	b.latency = make([]time.Duration, 0)
-	keys := make(chan int, b.Concurrency)
-	latencies := make(chan time.Duration, 1000)
+	keys := make(chan int, b.Concurrency)       //transfer keys
+	latencies := make(chan time.Duration, 1000) //transfer task latencies
 	defer close(latencies)
+	//start a goroutine collect to collect the task latencies of every worker thread
 	go b.collect(latencies)
 
+	//Concurrency  int    // number of simulated clients
 	for i := 0; i < b.Concurrency; i++ {
 		//make thread
+		//receive the keys from chennel keys
 		go b.worker(keys, latencies)
 	}
-
+	//init the database
 	b.db.Init()
+	//启动一个计时器，超过指定时间后，停止基准测试
+	//
 	b.startTime = time.Now()
 	if b.T > 0 {
 		timer := time.NewTimer(time.Second * time.Duration(b.T))
@@ -85,6 +93,8 @@ func (b *Benchmark) Run() {
 			default:
 				b.wait.Add(1)
 				//log.Debugf("is generating key No.%v", j)
+				//通过发送任务键来触发工作线程执行写入操作
+				//并执行生成、送法和确认的技术
 				k := b.next()
 				genCount++
 				keys <- k
@@ -101,9 +111,11 @@ func (b *Benchmark) Run() {
 	}
 
 	t := time.Now().Sub(b.startTime)
-
+	//执行
 	b.db.Stop()
 	close(keys)
+	//当基准测试结束后，停止数据库操作，并统计基准测试的结果
+	//包括并发度，持续时间、吞吐量和任务技术
 	stat := Statistic(b.latency)
 	confirmCount = uint64(len(b.latency))
 	log.Infof("Concurrency = %d", b.Concurrency)
@@ -116,10 +128,13 @@ func (b *Benchmark) Run() {
 	//b.History.WriteFile("history")
 }
 
+<<<<<<< HEAD
 // 한 txn transfer하는 게
+=======
+// 한 txn 전성하는 게
+// 从输入通道接受键，并将操作耗时发送到结果通道
+>>>>>>> 88f168de99ce2d740298a494cb48afea10dcfd10
 func (b *Benchmark) worker(keys <-chan int, result chan<- time.Duration) {
-	//该函数用于  执行基准测试工作，通过 从输入通道  接受 键，对数据库进行  写操作，
-	//并将操作耗时  发送至  结果通道
 	//var s time.Time
 	//var e time.Time
 	//var v int
@@ -140,6 +155,7 @@ func (b *Benchmark) worker(keys <-chan int, result chan<- time.Duration) {
 		//rand.Read(value)
 		//使用 Benchmark 结构体实例 b 的 db 字段（假设是一个数据库接口）的 Write 方法，
 		//将整数键 k 与生成的随机数据 value 写入数据库。
+		//执行
 		_ = b.db.Write(k, value)
 		//res, err := strconv.Atoi(r)
 		//log.Debugf("latency is %v", time.Duration(res)*time.Nanosecond)
