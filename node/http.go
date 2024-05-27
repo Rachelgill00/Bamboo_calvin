@@ -1,9 +1,6 @@
 package node
 
 import (
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/message"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -11,6 +8,10 @@ import (
 	"net/url"
 	"sync"
 	"time"
+
+	"github.com/gitferry/bamboo/config"
+	"github.com/gitferry/bamboo/log"
+	"github.com/gitferry/bamboo/message"
 )
 
 // http request header names
@@ -26,7 +27,7 @@ var ppFree = sync.Pool{
 }
 
 // serve serves the http REST API request from clients
-//receiver
+// receiver
 func (n *node) http() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", n.handleRoot)
@@ -72,6 +73,10 @@ func (n *node) handleRoot(w http.ResponseWriter, r *http.Request) {
 	req.NodeID = n.id
 	req.Timestamp = time.Now()
 	req.ID = r.RequestURI
+	req.ReadSet = make([]string, 0)
+	req.ReadSet = append(req.ReadSet, "A", "B")
+	req.WriteSet = make([]string, 0)
+	req.WriteSet = append(req.WriteSet, "A", "B")
 	n.TxChan <- req
 
 	//reply := <-req.C

@@ -99,18 +99,6 @@ func (n *node) Run() {
 	n.http()
 }
 
-func (n *node) txn() {
-	for {
-		tx := <-n.TxChan
-		v := reflect.ValueOf(tx)
-		name := v.Type().String()
-		f, exists := n.handles[name]
-		if !exists {
-			log.Fatalf("no registered handle function for message type %v", name)
-		}
-		f.Call([]reflect.Value{v})
-	}
-}
 
 // recv receives messages from socket and pass to message channel
 func (n *node) recv() {
@@ -137,6 +125,20 @@ func (n *node) recv() {
 		n.MessageChan <- m
 	}
 }
+
+func (n *node) txn() {
+	for {
+		tx := <-n.TxChan
+		v := reflect.ValueOf(tx)
+		name := v.Type().String()
+		f, exists := n.handles[name]
+		if !exists {
+			log.Fatalf("no registered handle function for message type %v", name)
+		}
+		f.Call([]reflect.Value{v})
+	}
+}
+
 
 // handle receives messages from message channel and calls handle function using refection
 func (n *node) handle() {

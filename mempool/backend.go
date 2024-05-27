@@ -4,6 +4,7 @@ import (
 	"container/list"
 	"sync"
 
+	"github.com/gitferry/bamboo/log"
 	"github.com/gitferry/bamboo/message"
 )
 
@@ -73,13 +74,18 @@ func (b *Backend) some(n int) []*message.Transaction {
 	batchSize = b.size() //to get the size of the storage TXN
 	if batchSize >= n {
 		batchSize = n
+
 	}
+	log.Infof("batchSize is %v", batchSize)
 	//make a slice to storage the acquired txn
 	batch := make([]*message.Transaction, 0, batchSize)
 	//to acquire the txn in the backend and append it to the batch
 	for i := 0; i < batchSize; i++ {
 		tx := b.front()
+		//log.Infof("successfully batch txns %x", tx)
+		//log.Infof("Node [%v] TXN[%v]'s timestamp is %v ", tx.NodeID, i, tx.Timestamp)
 		batch = append(batch, tx)
+
 	}
 	return batch
 }

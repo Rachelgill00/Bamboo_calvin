@@ -90,11 +90,13 @@ func NewReplica(id identity.NodeID, alg string, isByz bool) *Replica {
 	r.Register(pacemaker.TMO{}, r.HandleTmo)
 	r.Register(message.Transaction{}, r.handleTxn)
 	r.Register(message.Query{}, r.handleQuery)
+	r.Register([]message.Sequencer_Message{}, r.handleSequencerMessage)
 	//使用gob创建各种消息类型，以便进行网络通信时的encode/decode
 	gob.Register(blockchain.Block{})
 	gob.Register(blockchain.Vote{})
 	gob.Register(pacemaker.TC{})
 	gob.Register(pacemaker.TMO{})
+	gob.Register([]message.Sequencer_Message{})
 
 	// Is there a better way to reduce the number of parameters?
 	// 根据算法名称，选择相应的安全算法进行初始化。
@@ -174,6 +176,10 @@ func (r *Replica) handleTxn(m message.Transaction) {
 	}
 }
 
+func (r *Replica) handleSequencerMessage(msg []message.Sequencer_Message) {
+	r.eventChan <- msg
+}
+
 /* Processors */
 //处理器
 func (r *Replica) processCommittedBlock(block *blockchain.Block) {
@@ -211,9 +217,37 @@ func (r *Replica) processNewView(newView types.View) {
 // creat and broadcast a new blcok
 func (r *Replica) proposeBlock(view types.View) {
 	createStart := time.Now()
-	//
+
 	block := r.Safety.MakeProposal(view, r.pd.GeneratePayload())
+
+	log.Infof("[%v]successfully batch txns", r.Node.ID())
+
 	r.totalBlockSize += len(block.Payload)
+	log.Infof("[%v]totalBlockSize is %v", r.ID(), r.totalBlockSize)
+
+	collect_sequencer_msg := make([]message.Sequencer_Message, 0)
+
+	for _, tx := range block.Payload {
+
+		sequencer_msg := message.Sequencer_Message{
+			NodeID:  r.ID(),
+			CurView: r.pm.GetCurView(),
+			TXN:     tx,
+		}
+		//log.Infof("NodeID: %v, View: %v, TX: %v\n", r.ID(), r.pm.GetCurView(), tx.ID)
+		collect_sequencer_msg = append(collect_sequencer_msg, sequencer_msg)
+	}
+
+	//Output: collect_sequencer_msg
+	// for _, msg := range collect_sequencer_msg {
+	// 	log.Infof("NodeID: %v, View: %v, TXN: %v\n", msg.NodeID, msg.CurView, msg.TXN.ID)
+	// 	fmt.Printf("NodeID: %v, View: %v, TXN: %v\n", msg.NodeID, msg.CurView, msg.TXN.ID)
+	// }
+
+	fmt.Println("-------")
+
+	r.Broadcast(collect_sequencer_msg)
+
 	r.proposedNo++
 	createEnd := time.Now()
 	createDuration := createEnd.Sub(createStart)
@@ -224,6 +258,7 @@ func (r *Replica) proposeBlock(view types.View) {
 	r.voteStart = time.Now()
 }
 
+/*
 // calvin
 func (r *Replica) ProposeTXN() {
 
@@ -231,15 +266,16 @@ func (r *Replica) ProposeTXN() {
 	txns_batch := r.pd.GeneratePayload()
 
 	if len(txns_batch) > 0 {
-		msg := message.Sequencer_Message{
+		sequencer_msg := message.Sequencer_Message{
 			NodeID:  r.ID(),
 			CurView: types.View(r.pm.GetCurView()),
 			TXN:     txns_batch[0],
 		}
 		//3.received TXN batch with each other and combine and sort them according to the time
-		r.global_sequence <- msg
+		r.global_sequence <- sequencer_msg
 	}
 }
+*/
 
 // ListenLocalEvent listens new view and timeout events
 func (r *Replica) ListenLocalEvent() {
@@ -320,6 +356,12 @@ func (r *Replica) Start() {
 			r.voteNo++
 		case pacemaker.TMO:
 			r.Safety.ProcessRemoteTmo(&v)
+		case []message.Sequencer_Message:
+			// Todo
+			for _, value := range v {
+				fmt.Println("ReadSet:", value.TXN.ReadSet)
+				fmt.Println("WriteSet:", value.TXN.WriteSet)
+			}
 		}
 	}
 }

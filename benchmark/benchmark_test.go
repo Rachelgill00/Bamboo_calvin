@@ -8,8 +8,10 @@ import (
 )
 
 type FakeDB struct {
+	//키 값 범위
 	start int
 	end   int
+	//Record the number of eligible operations and the total number of operations
 	local int
 	total int
 
@@ -21,6 +23,7 @@ func (f *FakeDB) Init() error {
 }
 
 func (f *FakeDB) Stop() error {
+	//record the numeber of local & total operations
 	log.Infof("local / total = %d / %d = %f", f.local, f.total, float64(f.local)/float64(f.total))
 	return nil
 }

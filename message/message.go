@@ -30,6 +30,7 @@ func init() {
 
 // Transaction is client reqeust with http response channel
 type Transaction struct {
+	
 	Command    db.Command
 	Properties map[string]string
 	Timestamp  time.Time
