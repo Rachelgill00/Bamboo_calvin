@@ -1,7 +1,7 @@
 package crypto
 
 import (
-	"github.com/gitferry/bamboo/types/encoding"
+	"github.com/Rachelgill00/simulation-for-calvin/types/encoding"
 )
 
 type Identifier [32]byte

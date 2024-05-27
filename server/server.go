@@ -5,12 +5,12 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/gitferry/bamboo"
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/crypto"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/replica"
+	"github.com/Rachelgill00/simulation-for-calvin"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/replica"
 )
 
 var algorithm = flag.String("algorithm", "hotstuff", "BFT consensus algorithm")

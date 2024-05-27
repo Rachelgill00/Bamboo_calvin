@@ -1,8 +1,8 @@
 package pacemaker
 
 import (
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 	"sync"
 )
 

@@ -3,7 +3,7 @@ package identity
 import (
 	"strconv"
 
-	"github.com/gitferry/bamboo/log"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
 )
 
 // NodeID represents a generic identifier in format of Zone.Node

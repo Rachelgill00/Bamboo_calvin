@@ -2,9 +2,9 @@ package blockchain
 
 import (
 	"fmt"
-	"github.com/gitferry/bamboo/log"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
 
-	"github.com/gitferry/bamboo/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/crypto"
 )
 
 // LevelledForest contains multiple trees (which is a potentially disconnected planar graph).

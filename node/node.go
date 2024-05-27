@@ -5,11 +5,11 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/message"
-	"github.com/gitferry/bamboo/socket"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/message"
+	"github.com/Rachelgill00/simulation-for-calvin/socket"
 )
 
 // Node is the primary access point for every replica

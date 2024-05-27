@@ -4,8 +4,8 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"errors"
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
 )
 
 // SigningAlgorithm is an identifier for a signing algorithm and curve.

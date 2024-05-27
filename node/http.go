@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/message"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/message"
 )
 
 // http request header names

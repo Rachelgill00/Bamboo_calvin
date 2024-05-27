@@ -3,10 +3,10 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/gitferry/bamboo/crypto"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 )
 
 type Vote struct {

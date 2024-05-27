@@ -3,7 +3,7 @@ package blockchain
 import (
 	"testing"
 
-	"github.com/gitferry/bamboo/utils"
+	"github.com/Rachelgill00/simulation-for-calvin/utils"
 	"github.com/stretchr/testify/require"
 )
 

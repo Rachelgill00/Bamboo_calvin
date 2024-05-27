@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/db"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/db"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 )
 
 // 这些类型信息会被编译器编译为一组标识符，用于在网络传输中标识数据类型，或在将数据进行序列化和反序列化时使用。

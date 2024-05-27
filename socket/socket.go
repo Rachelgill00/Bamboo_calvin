@@ -5,10 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/transport"
-	"github.com/gitferry/bamboo/utils"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/transport"
+	"github.com/Rachelgill00/simulation-for-calvin/utils"
 )
 
 // Socket integrates all networking interface and fault injections

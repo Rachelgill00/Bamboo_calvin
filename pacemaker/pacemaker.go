@@ -1,11 +1,11 @@
 package pacemaker
 
 import (
-	"github.com/gitferry/bamboo/config"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
 	"sync"
 	"time"
 
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 )
 
 type Pacemaker struct {

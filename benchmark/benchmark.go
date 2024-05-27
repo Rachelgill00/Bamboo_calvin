@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/log"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
 )
 
 var count uint64

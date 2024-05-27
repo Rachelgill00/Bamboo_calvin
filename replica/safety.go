@@ -1,10 +1,10 @@
 package replica
 
 import (
-	"github.com/gitferry/bamboo/blockchain"
-	"github.com/gitferry/bamboo/message"
-	"github.com/gitferry/bamboo/pacemaker"
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/blockchain"
+	"github.com/Rachelgill00/simulation-for-calvin/message"
+	"github.com/Rachelgill00/simulation-for-calvin/pacemaker"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 )
 
 type Safety interface {

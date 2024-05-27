@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
 )
 
 // Key type of the key-value database

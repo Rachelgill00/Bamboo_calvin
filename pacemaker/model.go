@@ -1,10 +1,10 @@
 package pacemaker
 
 import (
-	"github.com/gitferry/bamboo/blockchain"
-	"github.com/gitferry/bamboo/crypto"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/blockchain"
+	"github.com/Rachelgill00/simulation-for-calvin/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 )
 
 type TMO struct {

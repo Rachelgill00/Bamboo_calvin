@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/gitferry/bamboo"
-	"github.com/gitferry/bamboo/benchmark"
-	"github.com/gitferry/bamboo/db"
+	"github.com/Rachelgill00/simulation-for-calvin"
+	"github.com/Rachelgill00/simulation-for-calvin/benchmark"
+	"github.com/Rachelgill00/simulation-for-calvin/db"
 )
 
 // Database implements bamboo.DB interface for benchmarking

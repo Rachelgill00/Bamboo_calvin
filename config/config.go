@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"time"
 
-	//"github.com/gitferry/bamboo/crypto"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/transport"
+	//"github.com/Rachelgill00/simulation-for-calvin/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/transport"
 )
 
 var configFile = flag.String("config", "config.json", "Configuration file for bamboo replica. Defaults to config.json.")

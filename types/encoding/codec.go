@@ -1,7 +1,7 @@
 package encoding
 
 import (
-	"github.com/gitferry/bamboo/types/encoding/json"
+	"github.com/Rachelgill00/simulation-for-calvin/types/encoding/json"
 )
 
 // Encoder encodes and decodes values to and from bytes.

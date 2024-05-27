@@ -1,8 +1,8 @@
 package mempool
 
 import (
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/message"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/message"
 )
 
 // Producer结构体包含 一个名为mempool的成员，它是一个指向 MemPool类型的指针。

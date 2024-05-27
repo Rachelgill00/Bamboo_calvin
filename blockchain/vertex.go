@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	"github.com/gitferry/bamboo/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/crypto"
 )
 
 type Vertex interface {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gitferry/bamboo/config"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
 	"net/http"
 	_ "net/http/pprof"
 	"os"

@@ -11,11 +11,11 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/gitferry/bamboo/config"
-	"github.com/gitferry/bamboo/db"
-	"github.com/gitferry/bamboo/identity"
-	"github.com/gitferry/bamboo/log"
-	"github.com/gitferry/bamboo/node"
+	"github.com/Rachelgill00/simulation-for-calvin/config"
+	"github.com/Rachelgill00/simulation-for-calvin/db"
+	"github.com/Rachelgill00/simulation-for-calvin/identity"
+	"github.com/Rachelgill00/simulation-for-calvin/log"
+	"github.com/Rachelgill00/simulation-for-calvin/node"
 )
 
 // Client interface provides get and put for key value store

@@ -2,8 +2,8 @@ package blockchain
 
 import (
 	"fmt"
-	"github.com/gitferry/bamboo/crypto"
-	"github.com/gitferry/bamboo/types"
+	"github.com/Rachelgill00/simulation-for-calvin/crypto"
+	"github.com/Rachelgill00/simulation-for-calvin/types"
 )
 
 type BlockChain struct {
